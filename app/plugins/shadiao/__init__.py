@@ -38,10 +38,10 @@ async def hlqk(session: CommandSession):
 async def _(session: NLPSession):
   return IntentCommand(90.0, '毒鸡汤')
 
-@on_natural_language(keywords={'彩虹屁'})
+@on_natural_language(keywords={'彩虹屁', '夸'})
 async def _(session: NLPSession):
   return IntentCommand(90.0, '彩虹屁')
 
-@on_natural_language(keywords={'朋友圈文案'})
+@on_natural_language(keywords={'文案'})
 async def _(session: NLPSession):
   return IntentCommand(90.0, '朋友圈文案')

@@ -25,7 +25,7 @@ async def _(session: CommandSession):
 
     session.state[session.current_key] = stripped_arg
 
-@on_natural_language(keywords={'天气'}, only_to_me = False)
+@on_natural_language(keywords={'天气'})
 async def _(session: NLPSession):
   stripped_msg = session.msg_text.strip()
   words = posseg.lcut(stripped_msg)
