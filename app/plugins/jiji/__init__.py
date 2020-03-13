@@ -5,6 +5,6 @@ async def _(session: CommandSession):
   await session.send("把四鸟踢了！")
 
 @on_natural_language(only_to_me=False)
-async def _(session: NLPSession):
+async def _(session: CommandSession):
   if session.ctx['user_id'] == "1252584289":
-    return IntentCommand(90.0, 'remove_siniao')
+    return IntentCommand(60.0, 'remove_siniao')
