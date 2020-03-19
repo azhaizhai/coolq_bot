@@ -10,7 +10,7 @@ async def picture_research_results(picture: str) -> str:
     result = "已搜索次数:"+str(res["trial"])+"\n剩余搜索次数:"+str(res["limit"])+"\n重置搜索次数时间(s):"+str(res["limit_ttl"])
     i = 0
     for data in res['docs']:
-      result += "\n********\n日文名:" +data["title_native"]+"\n中文名:"+data["title_chinese"]+"\n英文名:"+data["title_english"]+"\n时间:"+data["season"]+"\n开始集数:"+str(data["episode"])+"\n出现时间(秒):" + str(data["from"]) + " - " + str(data["to"])+ "\n可信度:" + str(round(data["similarity"], 4) * 100) + "%\n是否里番:" + str(data["is_adult"])
+      result += "\n********\n日文名:" +data["title_native"]+"\n中文名:"+data["title_chinese"]+"\n英文名:"+data["title_english"]+"\n时间:"+data["season"]+"\n开始集数:"+str(data["episode"])+"\n出现时间(秒):" + str(data["from"]) + " - " + str(data["to"])+ "\n可信度:" + str(round(data["similarity"] * 100, 4)) + "%\n是否里番:" + str(data["is_adult"])
       i += 1
       if i > 2:
         break
