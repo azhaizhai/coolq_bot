@@ -4,7 +4,7 @@ import random
 import string
 
 async def picture_research_results(picture: str) -> str:
-  salt = ''.join(random.sample(string.ascii_letters + string.digits, 8))
+  salt = ''.join(random.sample(string.ascii_letters + string.digits, 8)) + ".jpg"
   sysres = os.system("wget "+picture+" -O /usr/share/nginx/html/jay/pictures/img_search/" + salt)
   if sysres != 0:
     return "获取图片资源出错，请找江叶debug"
