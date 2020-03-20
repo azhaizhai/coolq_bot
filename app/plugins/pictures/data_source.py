@@ -1,12 +1,15 @@
 import requests
 import os
+import random
+import string
 
 async def picture_research_results(picture: str) -> str:
-  sysres = os.system("wget "+picture+" -O /usr/share/nginx/html/jay/pictures/img_search.jpg")
+  salt = ''.join(random.sample(string.ascii_letters + string.digits, 8))
+  sysres = os.system("wget "+picture+" -O /usr/share/nginx/html/jay/pictures/img_search/" + salt)
   if sysres != 0:
     return "获取图片资源出错，请找江叶debug"
   else:
-    r = requests.post("https://trace.moe/api/search",params={'url': "https://jay.syuico.cn/pictures/img_search.jpg"})
+    r = requests.post("https://trace.moe/api/search",params={'url': "https://jay.syuico.cn/pictures/img_search/"+salt})
     if r.status_code == 200:
       res = r.json()
       length = len(res['docs'])
