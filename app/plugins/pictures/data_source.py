@@ -4,7 +4,7 @@ import urllib.parse
 
 async def picture_research_results(picture: str) -> str:
   print(picture)
-  picture = urllib.quote(picture)
+  picture = urllib.parse.quote(picture)
   print(picture)
   sysres = os.system("wget "+picture+" -O /var/log/nginx/jay/pictures/img_search.jpg")
   if sysres != 0:
