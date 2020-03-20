@@ -2,7 +2,7 @@ import requests
 import os
 
 async def picture_research_results(picture: str) -> str:
-  sysres = os.system("wget "+picture+"-O /var/log/nginx/jay/pictures/img_search.jpg")
+  sysres = os.system("wget "+picture+" -O /var/log/nginx/jay/pictures/img_search.jpg")
   if sysres != 0:
     return "获取图片资源出错，请找江叶debug"
   else:
@@ -23,4 +23,4 @@ async def picture_research_results(picture: str) -> str:
         result += "\n********\n共有" + str(length) + "个返回，输出" + str(i) + "个。(请注意，通常来讲相似度低于87%的结果并不可信，且番名有时并不准确)"
         return  result
     else:
-      return "返回出错，原因如下(截图江叶debug):" + "r.text"
+      return "返回出错，原因如下(截图江叶debug):" + r.text
