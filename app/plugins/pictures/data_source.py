@@ -1,6 +1,6 @@
 import requests
 import os
-import urllib
+import urllib.parse
 
 async def picture_research_results(picture: str) -> str:
   print(picture)
