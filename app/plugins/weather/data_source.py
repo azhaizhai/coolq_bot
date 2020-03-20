@@ -6,6 +6,6 @@ async def get_weather_of_city(location: str) -> str:
   result = r.json()['HeWeather6'][0]
   if result['status'] == 'ok':
     now = result['now']
-    return result['basic']['location'] + "的实时天气:\n\t天气状况: " + now['cond_txt'] + "\n\t体感温度: " + now['fl'] + "\n\t相对湿度: " + now['hum'] + "\n\t降水量: " + now['pcpn'] + "\n\t风向: " + now['wind_dir'] + "\n\t风速: " + now['wind_spd'] + "公里/小时\n\t风力: " + now['wind_sc']
+    return result['basic']['location'] + "的实时天气:\n天气状况: " + now['cond_txt'] + "\n体感温度: " + now['fl'] + "\n相对湿度: " + now['hum'] + "\n降水量: " + now['pcpn'] + "\n风向: " + now['wind_dir'] + "\n风速: " + now['wind_spd'] + "公里/小时\n风力: " + now['wind_sc'] + "级"
   else:
     return result['status']
