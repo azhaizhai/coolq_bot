@@ -5,6 +5,3 @@ import random
 async def _(session: NLPSession):
   if session.ctx['user_id'] == 604853027 and random.random() < 0.05:
     await session.send("把四鸟踢了!!")
-
-  if session.ctx['user_id'] == 1252584289 and random.random() < 0.05:
-    await session.send("把四鸟踢了!")
