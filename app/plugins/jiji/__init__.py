@@ -21,7 +21,7 @@ async def _(session: NLPSession):
 @on_natural_language(keywords={'把四鸟踢了'}, only_to_me=False)
 async def _(session: NLPSession):
   if redis.set("604853027_warning", "0", ex = 600, nx=True):
-    return IntentCommand(100.0, ('repeat',), None)
+    return IntentCommand(100.0, ('repeat',), None, session.msg)
 
 @on_command('repeat', only_to_me=False)
 async def _(session: CommandSession):
