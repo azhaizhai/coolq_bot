@@ -26,5 +26,10 @@ async def _(session: NLPSession):
 @on_command('repeat', only_to_me=False)
 async def _(session: CommandSession):
   await session.send(session.current_arg)
+
+@on_command('clear_siniao_cache', only_to_me=False)
+async def _(session: CommandSession):
+  redis.delete("604853027_warning")
+  await session.send("done")
   
   
