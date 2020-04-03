@@ -1,6 +1,7 @@
 from nonebot import on_natural_language, NLPSession, on_command, CommandSession, IntentCommand
 import random
 import conn
+import requests
 
 redis = conn.REDIS
 
@@ -15,6 +16,13 @@ async def _(session: NLPSession):
   elif session.ctx['user_id'] == 564679098:
     if random.random() < 0.25 and redis.set("564679098_warning", "0", ex = 600, nx=True):
       await session.send("sb鸡头")
+  elif session.ctx['user_id'] == 1441297016:
+    if random.random() < 0.5 and redis.set("1441297016_warning", "0", ex = 600, nx=True):
+      r = requests.get("https://chp.shadiao.app/api.php",params={'from': 'cn_syuico'})
+      await session.send(r.text, at_sender=True)
+  elif ession.ctx['user_id'] == 1213825963:
+    if random.random() < 0.99 and redis.set("1213825963_warning", "0", ex = 600, nx=True):
+      await session.send("sb啊初")
 
 @on_natural_language(keywords={'江叶', '浆液', '桨叶', '浆叶'}, only_to_me=False)
 async def _(session: NLPSession):
