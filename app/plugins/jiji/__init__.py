@@ -13,8 +13,8 @@ async def _(session: NLPSession):
     if random.random() < 0.5 and redis.set("1821703949_warning", "0", ex = 600, nx=True):
       await session.send("毛玉哥哥我爱你＾3＾")
   elif session.ctx['user_id'] == 564679098:
-    if random.random() < 0.5 and redis.set("1821703949_warning", "0", ex = 600, nx=True):
-      await session.send("毛玉哥哥我爱你＾3＾")
+    if random.random() < 0.25 and redis.set("564679098_warning", "0", ex = 600, nx=True):
+      await session.send("sb鸡头")
 
 @on_natural_language(keywords={'江叶', '浆液', '桨叶', '浆叶'}, only_to_me=False)
 async def _(session: NLPSession):
