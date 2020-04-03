@@ -20,7 +20,7 @@ async def _(session: NLPSession):
     if random.random() < 0.5 and redis.set("1441297016_warning", "0", ex = 600, nx=True):
       r = requests.get("https://chp.shadiao.app/api.php",params={'from': 'cn_syuico'})
       await session.send(r.text, at_sender=True)
-  elif ession.ctx['user_id'] == 1213825963:
+  elif session.ctx['user_id'] == 1213825963:
     if random.random() < 0.99 and redis.set("1213825963_warning", "0", ex = 600, nx=True):
       await session.send("sb啊初")
 
