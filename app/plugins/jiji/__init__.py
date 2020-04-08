@@ -15,7 +15,7 @@ async def _(session: NLPSession):
 
 @on_natural_language(only_to_me=False)
 async def _(session: NLPSession):  
-  if cursor.execute("select * from `jiji_group` where `user_id`= %s", session.ctx["user_id"]) > 0
+  if cursor.execute("select * from `jiji_group` where `user_id`= %s", session.ctx["user_id"]) > 0:
     result = cursor.fetchone()
     if random.random() < result['random'] and redis.set(str(result['user_id'])+"_warning", "0", ex = 600, nx=True):
       await session.send(result['note'], at_sender = result['at_me'] == 1)
@@ -47,7 +47,7 @@ async def _(session: CommandSession):
 
   present = cursor.execute("select * from `jiji_group` where `user_id`= %s", session.ctx["user_id"]) > 0
 
-  if present
+  if present:
     value = cursor.fetchone()
   else:
     value = {'user_id': session.ctx["user_id"], 'note': "", 'random': 0.5, 'at_me': 0}
