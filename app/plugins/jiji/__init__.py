@@ -21,7 +21,7 @@ async def _(session: NLPSession):
       r = requests.get("https://chp.shadiao.app/api.php",params={'from': 'cn_syuico'})
       await session.send(r.text, at_sender=True)
   elif session.ctx['user_id'] == 1213825963:
-    if random.random() < 0.99 and redis.set("1213825963_warning", "0", ex = 600, nx=True):
+    if random.random() < 0.07 and redis.set("1213825963_warning", "0", ex = 600, nx=True):
       await session.send("sb啊初")
 
 @on_natural_language(keywords={'江叶', '浆液', '桨叶', '浆叶'}, only_to_me=False)
