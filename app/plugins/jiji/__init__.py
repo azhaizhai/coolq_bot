@@ -4,7 +4,6 @@ import conn
 import requests
 
 redis = conn.REDIS
-cursor = conn.MYSQL.cursor()
 
 @on_natural_language(only_to_me=False)
 async def _(session: NLPSession):
@@ -19,8 +18,12 @@ async def _(session: NLPSession):
 async def _(session: NLPSession):  
   if session.ctx['user_id'] == 1596738425:
     return
+
+  mysql_connect = conn.mysql_connect()
+  cursor = mysql_connect.cursor()
   if cursor.execute("select * from `jiji_group` where `user_id`= %s", session.ctx["user_id"]) > 0:
     result = cursor.fetchone()
+    mysql_connect.close()
     if random.random() < result['random'] and redis.set(str(result['user_id'])+"_warning", "0", ex = 600, nx=True):
       await session.send(result['note'], at_sender = result['at_me'] == 1)
 
@@ -59,6 +62,8 @@ async def _(session: CommandSession):
   results = session.current_arg_text.split()
   flag = True
 
+  mysql_connect = conn.mysql_connect()
+  cursor = mysql_connect.cursor()
   present = cursor.execute("select * from `jiji_group` where `user_id`= %s", session.ctx["user_id"]) > 0
 
   if present:
@@ -98,7 +103,8 @@ async def _(session: CommandSession):
       sql_res = cursor.execute("INSERT INTO `jiji_group` (`user_id`, `note`, `random`, `at_me`) VALUES (%s, %s, %s, %s)", (value["user_id"], value['note'], value['random'], value['at_me']))
     
     if sql_res > 0:
-      conn.MYSQL.commit()
+      mysql_connect.commit()
+      mysql_connect.close()
       await session.send("done")
     else:
       await session.send("数据库更新失败，请联系江叶debug")
