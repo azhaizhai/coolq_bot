@@ -6,17 +6,14 @@ from .data_source import get_weather_of_city
 
 @on_command('weather', aliases=('天气', '天气预报', '查天气'), only_to_me=False)
 async def weather(session: CommandSession):
-  if session.ctx['user_id'] == 1252584289:
+  if session.ctx['user_id'] == 1596738425:
     return
   city = session.get('city', prompt='你想查询哪个城市的天气呢？')
   weather_report = await get_weather_of_city(city)
   await session.send(weather_report, at_sender=True)
 
 @weather.args_parser
-async def _(session: CommandSession):
-  if session.ctx['user_id'] == 1252584289:
-    return
-  
+async def _(session: CommandSession): 
   stripped_arg = session.current_arg_text.strip()
   if session.is_first_run:
       if stripped_arg:
@@ -29,7 +26,7 @@ async def _(session: CommandSession):
 
 @on_natural_language(keywords={'天气'})
 async def _(session: NLPSession):
-  if session.ctx['user_id'] == 1252584289:
+  if session.ctx['user_id'] == 1596738425:
     return
   stripped_msg = session.msg_text.strip()
   words = posseg.lcut(stripped_msg)
