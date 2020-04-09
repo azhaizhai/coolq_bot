@@ -48,12 +48,28 @@ async def _(session: CommandSession):
     return
   await session.send(session.current_arg)
 
-@on_command('clear_siniao_cache', only_to_me=False)
+@on_command('clear_cache', only_to_me=False)
 async def _(session: CommandSession):
   if session.ctx['user_id'] == 1596738425:
     return
-  redis.delete("604853027_warning")
+  redis.delete(str(session.ctx['user_id']) + "_warning")
   await session.send("done")
+
+@on_command('delete_notice', only_to_me=False)
+async def _(session: CommandSession):
+  if session.ctx['user_id'] == 1596738425:
+    return
+  
+  mysql_connect = conn.mysql_connect()
+  cursor = mysql_connect.cursor()
+
+  if cursor.execute("select * from `jiji_group` where `user_id`= %s", session.ctx["user_id"]) > 0:
+    cursor.execute("DELETE FROM `jiji_group` WHERE `user_id`= %s", session.ctx["user_id"])
+    mysql_connect.commit()
+    mysql_connect.close()
+    await session.send("done")
+  else:
+    await session.send("用户数据不存在")
   
 @on_command('my_notice', aliases=('我的舔狗'), only_to_me=False)
 async def _(session: CommandSession):
@@ -69,7 +85,7 @@ async def _(session: CommandSession):
   if present:
     value = cursor.fetchone()
   else:
-    value = {'user_id': session.ctx["user_id"], 'note': "", 'random': 0.5, 'at_me': 0}
+    value = {'user_id': str(session.ctx["user_id"]), 'note': "", 'random': 0.5, 'at_me': 0}
 
   if len(results) > 0:
     i = 0
@@ -98,16 +114,13 @@ async def _(session: CommandSession):
 
   if flag:
     if present:
-      sql_res = cursor.execute("UPDATE `jiji_group` SET `note`=%s, `random`=%s, `at_me`=%s WHERE `user_id`=%s", (value['note'], value['random'], value['at_me'], value["user_id"]))
+      cursor.execute("UPDATE `jiji_group` SET `note`=%s, `random`=%s, `at_me`=%s WHERE `user_id`=%s", (value['note'], value['random'], value['at_me'], value["user_id"]))
     else:
-      sql_res = cursor.execute("INSERT INTO `jiji_group` (`user_id`, `note`, `random`, `at_me`) VALUES (%s, %s, %s, %s)", (value["user_id"], value['note'], value['random'], value['at_me']))
-    
-    if sql_res > 0:
-      mysql_connect.commit()
-      mysql_connect.close()
-      await session.send("done")
-    else:
-      await session.send("数据库更新失败，请联系江叶debug")
+      cursor.execute("INSERT INTO `jiji_group` (`user_id`, `note`, `random`, `at_me`) VALUES (%s, %s, %s, %s)", (value["user_id"], value['note'], value['random'], value['at_me']))
+
+    mysql_connect.commit()
+    mysql_connect.close()
+    await session.send("done")
   else:
     await session.send("用法: my_notice(或 我的舔狗) 参数1 参数2(可选) 参数3(可选)\n参数1: 当你说话时要触发机器人说的内容。\n参数2: 你说话触发机器人响应的概率，默认0.5(需要是一个大于0，小于等于1的小数) \n参数3: 机器人响应是否要@你，默认为0.(0或1，0为不@，1为@)")
   
