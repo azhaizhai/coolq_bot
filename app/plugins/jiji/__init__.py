@@ -66,7 +66,7 @@ async def _(session: CommandSession):
   if cursor.execute("select * from `jiji_group` where `user_id`= %s", session.ctx["user_id"]) > 0:
     value = cursor.fetchone()
     if value['can_edit'] == 0:
-      await session.send("can_edit字段为False，禁止进行notice编辑，如有疑问请联系江叶。", at_sender=True)
+      return await session.send("can_edit字段为False，禁止进行notice编辑，如有疑问请联系江叶。", at_sender=True)
     cursor.execute("DELETE FROM `jiji_group` WHERE `user_id`= %s", session.ctx["user_id"])
     mysql_connect.commit()
     mysql_connect.close()
@@ -88,7 +88,7 @@ async def _(session: CommandSession):
   if present:
     value = cursor.fetchone()
     if value['can_edit'] == 0:
-      await session.send("can_edit字段为False，禁止进行notice编辑，如有疑问请联系江叶。", at_sender=True)
+      return await session.send("can_edit字段为False，禁止进行notice编辑，如有疑问请联系江叶。", at_sender=True)
   else:
     value = {'user_id': str(session.ctx["user_id"]), 'note': "", 'random': 0.5, 'at_me': 0}
 
